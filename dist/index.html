@@ -52,19 +52,17 @@
     @media(max-width:750px){.visit{padding-top:58px;padding-bottom:58px;align-items:initial!important}.visit-right{margin-top:30px!important;display:block}.visit-right>a{padding:13px 0}}
   </style>
   <style>
-    .carousel-next{right:16px!important}
-    @media(max-width:750px){.carousel-next{right:10px!important}}
+    .carousel-window{--carousel-gap:18px;--carousel-peek:0px}.carousel-slide{min-width:calc((100% - (var(--carousel-gap) * 2)) / 3)}.carousel-next{right:16px!important}.carousel-prev{left:16px!important}
+    @media(max-width:750px){.carousel-window{--carousel-gap:10px}.carousel-next{right:10px!important}.carousel-prev{left:10px!important}}
   </style>
   <script>
     const track = document.querySelector('.carousel-track');
     const slides = [...document.querySelectorAll('.carousel-slide')];
     let current = 0;
     const maxCurrent = Math.max(0, slides.length - 3);
-    track.prepend(slides[slides.length - 1].cloneNode(true));
     const getStep = () => slides[0].getBoundingClientRect().width + parseFloat(getComputedStyle(track).gap || 18);
     function updateCarousel(){
-      const peek = parseFloat(getComputedStyle(track.parentElement).getPropertyValue('--carousel-peek')) || 76;
-      track.style.transform = `translateX(-${Math.max(0, (current + 1) * getStep() - peek)}px)`;
+      track.style.transform = `translateX(-${current * getStep()}px)`;
       slides.forEach((slide, index) => slide.classList.toggle('is-active', index === current));
       const prevButton = document.querySelector('.carousel-prev');
       const nextButton = document.querySelector('.carousel-next');
